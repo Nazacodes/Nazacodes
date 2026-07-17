@@ -1,14 +1,18 @@
-name: Generate Metrics (Isometric Calendar)
+name: Generate Metrics
 
-# Renders the isometric 3D commit calendar SVG used inside the
-# "More stats & insights" section of the profile README.
+# Renders the MAIN stats card (metrics.svg) shown in the "GitHub Stats"
+# section of the profile README — commits/stars/followers header, a
+# languages breakdown, and an isometric 3D commit calendar, all in one
+# self-contained SVG that is COMMITTED to this repo. Because the image is
+# committed (not fetched from a third-party service at page-load), it never
+# 503s or rate-limits — it always renders on your profile.
 #
 # REQUIRES a repo secret named METRICS_TOKEN:
 #   a classic Personal Access Token with `repo`, `read:org`, `read:user` scopes.
 #   Create at https://github.com/settings/tokens  → add under
 #   repo Settings → Secrets and variables → Actions → New repository secret.
-# Until that secret exists this workflow will fail and the isocalendar image
-# in the README simply won't render (it is hidden inside a <details> block).
+# Until that secret exists this workflow fails and metrics.svg is not generated
+# (the GitHub Stats card would show a broken image until then).
 
 on:
   schedule:
@@ -23,13 +27,19 @@ jobs:
       contents: write
     timeout-minutes: 10
     steps:
-      - name: Generate isometric commit calendar
+      - name: Generate metrics.svg
         uses: lowlighter/metrics@latest
         with:
           token: ${{ secrets.METRICS_TOKEN }}
           user: ${{ github.repository_owner }}
-          filename: metrics.plugin.isocalendar.svg
-          base: ""
+          filename: metrics.svg
+          template: classic
+          base: header, activity, community, repositories, metadata
           config_timezone: Africa/Lagos
+          # Language breakdown (replaces the old top-langs card)
+          plugin_languages: yes
+          plugin_languages_details: percentage
+          plugin_languages_limit: 8
+          # Isometric 3D commit calendar
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year

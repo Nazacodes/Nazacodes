@@ -25,34 +25,38 @@ git remote add origin https://github.com/nazacodes/nazacodes.git
 git push -u origin main
 ```
 
-## Step 3 — Turn on the auto-generated visuals 🐍🧊
-Several images are produced by GitHub Actions and won't appear until each
-workflow runs at least once. After pushing, open your repo → **Actions** tab,
-click **"I understand my workflows, enable them"** if prompted, then run each:
+## Step 3 — Turn on the auto-generated visuals 🧊📊
+Two images are produced by GitHub Actions and won't appear until each workflow
+runs at least once. After pushing, open your repo → **Actions** tab, click
+**"I understand my workflows, enable them"** if prompted, then run each:
 
-1. **Generate Contribution Snake** — creates the `output` branch with the snake
-   SVGs (the 🐍 animation eating your grid). ~30s.
-2. **Generate 3D Contribution Calendar** — commits `profile-3d-contrib/*.svg`
-   (the isometric 3D skyline at the top). No secret required. ~1 min.
-3. **Generate Metrics (Isometric Calendar)** — commits
-   `metrics.plugin.isocalendar.svg` (hidden inside *More stats & insights*).
-   **This one needs a secret** — see Step 3b. It's optional; skip it and the
-   collapsible image just stays blank.
+1. **Generate 3D Contribution Calendar** — commits `profile-3d-contrib/*.svg`
+   (the isometric 3D skyline near the top). No secret required. ~1 min.
+2. **Generate Metrics** — commits `metrics.svg`, the **main GitHub Stats card**
+   (commits/stars/followers header + language breakdown + isometric calendar).
+   **This one needs the `METRICS_TOKEN` secret — see Step 3b.** Until it runs,
+   the GitHub Stats card shows a broken image, so set the token before relying
+   on your profile.
 
-All three re-run automatically on a schedule (and snake + 3D on every push).
+Both re-run automatically on a schedule (and the 3D calendar on every push).
 
-## Step 3b — (Optional) METRICS_TOKEN for the isometric calendar
+> ℹ️ Why metrics instead of the usual `github-readme-stats` cards? Those are
+> served live by a shared public instance that frequently rate-limits (HTTP 503)
+> — which is exactly why the stats section looked broken. `metrics.svg` is
+> generated once and **committed to your repo**, so it always renders.
+
+## Step 3b — METRICS_TOKEN (required for the stats card)
 The metrics workflow needs a Personal Access Token:
 
 1. Create a **classic** token at https://github.com/settings/tokens with scopes
    `repo`, `read:org`, `read:user`.
 2. In your repo: **Settings → Secrets and variables → Actions → New repository
    secret**. Name it exactly **`METRICS_TOKEN`**, paste the token.
-3. Re-run the **Generate Metrics** workflow.
+3. Run the **Generate Metrics** workflow.
 
-If you'd rather not bother, delete `.github/workflows/metrics.yml` and remove the
-`metrics.plugin.isocalendar.svg` image line inside the *More stats* `<details>`
-block in `README.md`.
+If you'd rather not use it at all, delete `.github/workflows/metrics.yml` and
+remove the `metrics.svg` image line in the **GitHub Stats** section of
+`README.md`.
 
 ## Step 4 — Personalize ✏️
 Open `README.md` and update the clearly-marked spots:
