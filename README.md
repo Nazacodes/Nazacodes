@@ -39,7 +39,7 @@
 ```typescript
 const naza = {
   pronouns:   "he/him",
-  location:   "🌍 Somewhere on Earth",  // ← update me
+  location:   "🌍 Somewhere on Earth",  
   stack:      ["low-level", "full-stack", "backend/cloud", "data/AI"],
   languages:  ["C", "C++", "Rust", "Zig", "Go", "TypeScript", "Python"],
   cloud:      ["AWS", "GCP", "Cloudflare"],
