@@ -1,0 +1,3 @@
+# Local Claude Code / editor config — never publish to the profile repo
+.claude/
+.DS_Store
