@@ -25,16 +25,34 @@ git remote add origin https://github.com/nazacodes/nazacodes.git
 git push -u origin main
 ```
 
-## Step 3 — Turn on the snake animation 🐍
-The contribution-snake images (`...output/...snake.svg`) won't appear until the
-GitHub Action runs once and creates the `output` branch.
+## Step 3 — Turn on the auto-generated visuals 🐍🧊
+Several images are produced by GitHub Actions and won't appear until each
+workflow runs at least once. After pushing, open your repo → **Actions** tab,
+click **"I understand my workflows, enable them"** if prompted, then run each:
 
-1. After pushing, open your repo → **Actions** tab
-2. If prompted, click **"I understand my workflows, enable them"**
-3. Open **"Generate Contribution Snake"** → **Run workflow**
-4. Wait ~30s. It creates an `output` branch with the SVGs. The snake will then render.
+1. **Generate Contribution Snake** — creates the `output` branch with the snake
+   SVGs (the 🐍 animation eating your grid). ~30s.
+2. **Generate 3D Contribution Calendar** — commits `profile-3d-contrib/*.svg`
+   (the isometric 3D skyline at the top). No secret required. ~1 min.
+3. **Generate Metrics (Isometric Calendar)** — commits
+   `metrics.plugin.isocalendar.svg` (hidden inside *More stats & insights*).
+   **This one needs a secret** — see Step 3b. It's optional; skip it and the
+   collapsible image just stays blank.
 
-(After that it auto-updates every 12 hours and on every push.)
+All three re-run automatically on a schedule (and snake + 3D on every push).
+
+## Step 3b — (Optional) METRICS_TOKEN for the isometric calendar
+The metrics workflow needs a Personal Access Token:
+
+1. Create a **classic** token at https://github.com/settings/tokens with scopes
+   `repo`, `read:org`, `read:user`.
+2. In your repo: **Settings → Secrets and variables → Actions → New repository
+   secret**. Name it exactly **`METRICS_TOKEN`**, paste the token.
+3. Re-run the **Generate Metrics** workflow.
+
+If you'd rather not bother, delete `.github/workflows/metrics.yml` and remove the
+`metrics.plugin.isocalendar.svg` image line inside the *More stats* `<details>`
+block in `README.md`.
 
 ## Step 4 — Personalize ✏️
 Open `README.md` and update the clearly-marked spots:
